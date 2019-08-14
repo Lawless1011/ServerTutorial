@@ -1,0 +1,19 @@
+name: ServerTutorial
+main: Deceitya\ServerTutorial\ServerTutorialPlugin
+version: 1.0.0
+api: 3.9.3
+
+load: POSTWORLD
+author: deceitya
+description: 鯖のチュートリアル
+website: https://github.com/deceitya/ServerTutorial
+
+commands:
+  tutorial:
+    usage: "/tutorial <start|set> [message] [time]"
+    description: "チュートリアルプラグインのコマンド"
+    permission: tutorial.command.tutorial
+permissions:
+  tutorial.command.tutorial:
+    description: "Allows the admin to run the tutorial command"
+    default: true
