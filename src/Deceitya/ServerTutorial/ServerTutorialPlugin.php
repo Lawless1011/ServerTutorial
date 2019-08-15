@@ -27,6 +27,7 @@ class ServerTutorialPlugin extends PluginBase
     public function onDisable()
     {
         $config = new Config($this->getDataFolder() . 'tutorial.json', Config::JSON);
+        $config->setJsonOptions(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
         $all = [];
         foreach ($this->tutorials as $tutorial) {
@@ -51,8 +52,8 @@ class ServerTutorialPlugin extends PluginBase
                 if (count($args) < 3) {
                     return false;
                 }
-                if ($sender->isOp()) {
-                    return false;
+                if (!$sender->isOp()) {
+                    return true;
                 }
 
                 $this->tutorials[] = new Tutorial($args[1], $args[2], $sender->getLocation());
@@ -64,6 +65,7 @@ class ServerTutorialPlugin extends PluginBase
                 $mode = $sender->getGamemode();
 
                 $sender->setGamemode(Player::SPECTATOR);
+                $sender->setImmobile(true);
 
                 $time = 0;
                 foreach ($this->tutorials as $tutorial) {
@@ -81,6 +83,7 @@ class ServerTutorialPlugin extends PluginBase
                     function (int $currentTick) use ($sender, $pos, $mode): void {
                         $sender->teleport($pos);
                         $sender->setGamemode($mode);
+                        $sender->setImmobile(false);
                     }
                 ), 20 * $time);
 
